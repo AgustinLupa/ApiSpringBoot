@@ -3,6 +3,7 @@ package api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,17 +22,22 @@ public class UserController {
 	@Autowired
 	IUserServices service;
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping({"/list", "/"})
 	public List<User> list() {        
 	    List<User> employees = service.findAll();	   
 	    return employees;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping
 	public User Save(@RequestBody User user) {
-		return service.save(user);
+		if(user.getName() != null && user.getPassword() != null)
+			return service.save(user);
+		return null;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
 	public String DeleteById(@PathVariable("id") Long id) {
 		boolean ok= service.deleteById(id);
@@ -43,8 +49,9 @@ public class UserController {
 		}
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/login")
-	public User Login(@RequestBody User user) {
+	public User Login(@RequestBody User user) {		
 		return service.Login(user.getName(), user.getPassword());
 	}
 }

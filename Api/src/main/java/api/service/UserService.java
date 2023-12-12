@@ -52,7 +52,7 @@ public class UserService implements IUserServices{
         if (user != null && (password.equals(user.getPassword())) ) {            
             return user;
         }
-        return new User();
+        return null;
     
 	}
 
